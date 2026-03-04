@@ -41,7 +41,8 @@ if __name__ == "__main__":
             try:
                 voltage = float(input("Введите напряжение в Вольтах: "))
                 dac.set_voltage(voltage)
-
+                if voltage == 0.0:
+                    break
             except ValueError:
                 print("Вы ввели не число. Попробуйте ещё раз\n")
 
