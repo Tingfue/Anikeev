@@ -1,12 +1,14 @@
 import RPi.GPIO as GPIO
+
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(0, GPIO.OUT)
 
-a = [int(x) for x in bin(25)[2:].zfill(8)]
-print(a)
+led = 26
+GPIO.setup(led, GPIO.OUT)
 
-p = GPIO.PWM(0, 0.5)
-p.start(100)
-input('Press return to stop: ')
-p.stop()
-GPIO.cleanup()
+photo = 6
+
+GPIO.setup(photo, GPIO.IN)
+
+
+while True:
+    GPIO.output(led, not GPIO.input(photo))

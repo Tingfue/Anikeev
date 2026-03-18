@@ -2,10 +2,14 @@ import RPi.GPIO as GPIO
 import time
 
 class R2R_ADC:
-    def init(self, dynamic_range=3.183, compare_time=0.01, verbose=False):
+    def __init__(self, dynamic_range=3.183, compare_time=0.01, verbose=False):
         self.dynamic_range = dynamic_range
         self.verbose = verbose
         self.compare_time = compare_time
+        self.time_values = []
+        self.time_durations = []
+        self.voltage_values = []
+        self.duration = 3.0
 
         self.bits_gpio = [26, 20, 19, 16, 13, 12, 25, 11]
         self.comp_gpio = 21
@@ -14,7 +18,7 @@ class R2R_ADC:
         GPIO.setup(self.bits_gpio, GPIO.OUT, initial=0)
         GPIO.setup(self.comp_gpio, GPIO.IN)
 
-    def deinit(self):
+    def __del__(self):
         GPIO.output(self.bits_gpio, 0)
         GPIO.cleanup()
 
@@ -46,15 +50,17 @@ class R2R_ADC:
                 print("ADC value = {:^3} -> {}, input voltage = {:.2f}".format(i, flag, voltage))
                 break
         print(voltage)
+        return voltage
             
 
 
 if __name__ == "__main__":
     try:
-        adc = R2R_ADC()
+        adc = R2R_ADC(3.183, 0.01, False)
 
         while True:
             adc.sequential_counting_adc()
-
+    except KeyboardInterrupt:
+        print("stop") 
     finally:
-        adc.deinit()
+        del adc

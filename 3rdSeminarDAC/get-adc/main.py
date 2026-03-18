@@ -27,8 +27,8 @@ def sequential_counting_adc(dac, maxVoltage, comparator):
         flag = num2dac(val, dac)
         voltage = val / levels * maxVoltage
         compval = GPIO.input(comparator)
-        print(flag)
-        time.sleep(0.01)
+        #print(flag)
+        time.sleep(0.0002)
         if compval == 1:
             print("ADC value = {:^3} -> {}, input voltage = {:.2f}".format(val, flag, voltage))
             break
